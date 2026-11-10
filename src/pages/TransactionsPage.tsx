@@ -48,7 +48,7 @@ type ResponsibilityType = 'mine' | 'partner' | 'shared';
 const RESPONSIBILITY_LABELS: Record<ResponsibilityType, string> = {
   mine: 'Minha despesa',
   partner: 'Despesa do(a) parceiro(a)',
-  shared: 'Despesa do casal',
+  shared: 'Despesa do Casal',
 };
 
 type PayerType = 'me' | 'partner' | 'both';
@@ -800,8 +800,8 @@ export default function TransactionsPage() {
                     </div>
                   )}
 
-                  {/* Responsibility selector (shared spaces only) */}
-                  {members.length > 0 && (
+                  {/* Responsibility selector */}
+                  {(
                     <div className="space-y-3 p-3 rounded-xl bg-neutral-50 border border-neutral-100">
                       <div className="flex items-center gap-2">
                         <User className="w-4 h-4 text-neutral-500" />

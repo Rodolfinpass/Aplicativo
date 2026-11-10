@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { logger } from '@/lib/logger';
-import { lastDayOfMonth } from '@/lib/dates';
+import { lastDayOfMonth, todayISO } from '@/lib/dates';
 import type { Card, Invoice } from '@/types';
 
 interface Props {
@@ -42,10 +42,10 @@ function getDueDate(end: string, dueDay: number): string {
 }
 
 export default function QuickInvoiceModal({ open, onClose, spaceId, card, onCreated }: Props) {
-  const [periodStart, setPeriodStart] = useState('');
-  const [periodEnd, setPeriodEnd] = useState('');
-  const [closingDate, setClosingDate] = useState('');
-  const [dueDate, setDueDate] = useState('');
+  const [periodStart, setPeriodStart] = useState(todayISO());
+  const [periodEnd, setPeriodEnd] = useState(todayISO());
+  const [closingDate, setClosingDate] = useState(todayISO());
+  const [dueDate, setDueDate] = useState(todayISO());
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -56,6 +56,15 @@ export default function QuickInvoiceModal({ open, onClose, spaceId, card, onCrea
     setPeriodEnd(end);
     setClosingDate(end);
     setDueDate(getDueDate(end, c.due_day));
+  }
+
+  function sanitizeDateInput(value: string): string {
+    const parts = value.split('-');
+    if (parts.length === 3) {
+      const year = parts[0].slice(0, 4);
+      return `${year}-${parts[1]}-${parts[2]}`;
+    }
+    return value;
   }
 
   if (!open) return null;
@@ -110,21 +119,21 @@ export default function QuickInvoiceModal({ open, onClose, spaceId, card, onCrea
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="label">Início do período</label>
-              <input type="date" className="input" value={periodStart} onChange={(e) => setPeriodStart(e.target.value)} required />
+              <input type="date" className="input" value={periodStart} onChange={(e) => setPeriodStart(sanitizeDateInput(e.target.value))} required />
             </div>
             <div>
               <label className="label">Fim do período</label>
-              <input type="date" className="input" value={periodEnd} onChange={(e) => setPeriodEnd(e.target.value)} required />
+              <input type="date" className="input" value={periodEnd} onChange={(e) => setPeriodEnd(sanitizeDateInput(e.target.value))} required />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="label">Fechamento</label>
-              <input type="date" className="input" value={closingDate} onChange={(e) => setClosingDate(e.target.value)} required />
+              <input type="date" className="input" value={closingDate} onChange={(e) => setClosingDate(sanitizeDateInput(e.target.value))} required />
             </div>
             <div>
               <label className="label">Vencimento</label>
-              <input type="date" className="input" value={dueDate} onChange={(e) => setDueDate(e.target.value)} required />
+              <input type="date" className="input" value={dueDate} onChange={(e) => setDueDate(sanitizeDateInput(e.target.value))} required />
             </div>
           </div>
           <button type="submit" disabled={saving} className="btn-primary w-full">
