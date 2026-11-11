@@ -106,16 +106,20 @@ export default function QuickInvoiceModal({ open, onClose, spaceId, card, onCrea
   }
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/40 animate-fade-in" onClick={onClose}>
-      <div className="card p-6 w-full max-w-md animate-scale-in max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-neutral-900">Nova fatura para {card?.name ?? 'cartão'}</h2>
-          <button onClick={onClose} className="text-neutral-400 hover:text-neutral-600 transition-colors"><X className="w-5 h-5" /></button>
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-panel max-w-md" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <div>
+            <h2 className="modal-title">Nova fatura para {card?.name ?? 'cartão'}</h2>
+            <p className="modal-subtitle">Defina o período e datas de pagamento</p>
+          </div>
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors"><X className="w-5 h-5" /></button>
         </div>
 
-        {error && <div className="mb-4 p-3 rounded-xl bg-danger-50 border border-danger-200 text-danger-700 text-sm">{error}</div>}
+        <div className="modal-body">
+        {error && <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm">{error}</div>}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form id="invoice-form" onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="label">Início do período</label>
@@ -136,10 +140,15 @@ export default function QuickInvoiceModal({ open, onClose, spaceId, card, onCrea
               <input type="date" className="input" value={dueDate} onChange={(e) => setDueDate(sanitizeDateInput(e.target.value))} required />
             </div>
           </div>
-          <button type="submit" disabled={saving} className="btn-primary w-full">
+        </form>
+        </div>
+
+        <div className="modal-footer">
+          <button type="button" onClick={onClose} className="btn-ghost">Cancelar</button>
+          <button type="submit" form="invoice-form" disabled={saving} className="btn-primary">
             {saving ? 'Criando...' : 'Criar fatura'}
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );
