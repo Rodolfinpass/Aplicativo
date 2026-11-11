@@ -176,21 +176,19 @@ export default function CategoryManageModal({ open, onClose, spaceId, onSaved, f
             )}
             <span className="text-sm text-neutral-700 truncate">{node.name}</span>
           </div>
-          {!selectMode && (
-            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              {level < 2 && (
-                <button onClick={(e) => { e.stopPropagation(); openNew(node.kind, node); }} className="p-1 rounded text-neutral-400 hover:text-emerald-600" title="Adicionar subcategoria">
-                  <Plus className="w-3.5 h-3.5" />
-                </button>
-              )}
-              <button onClick={(e) => { e.stopPropagation(); openEdit(node); }} className="p-1 rounded text-neutral-400 hover:text-emerald-600">
-                <Edit3 className="w-3.5 h-3.5" />
+          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            {level < 2 && (
+              <button onClick={(e) => { e.stopPropagation(); openNew(node.kind, node); }} className="p-1 rounded text-neutral-400 hover:text-emerald-600" title="Adicionar subcategoria">
+                <Plus className="w-3.5 h-3.5" />
               </button>
-              <button onClick={(e) => { e.stopPropagation(); handleDelete(node.id); }} className="p-1 rounded text-neutral-400 hover:text-rose-600">
-                <Trash2 className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          )}
+            )}
+            <button onClick={(e) => { e.stopPropagation(); openEdit(node); }} className="p-1 rounded text-neutral-400 hover:text-emerald-600">
+              <Edit3 className="w-3.5 h-3.5" />
+            </button>
+            <button onClick={(e) => { e.stopPropagation(); handleDelete(node.id); }} className="p-1 rounded text-neutral-400 hover:text-rose-600">
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
         {hasChildren && isExpanded && node.children.map(child => renderNode(child, level + 1))}
       </div>
@@ -283,27 +281,9 @@ export default function CategoryManageModal({ open, onClose, spaceId, onSaved, f
               'income'
             )}
             {selectMode && (
-              <div className="space-y-3">
-                <div>
-                  <label className="label">Criar subcategoria sob (opcional)</label>
-                  <select className="input py-2 text-sm" value={parentId ?? ''} onChange={(e) => setParentId(e.target.value || null)}>
-                    <option value="">Categoria raiz</option>
-                    {categories
-                      .filter(c => !filterKind || c.kind === filterKind)
-                      .filter(c => {
-                        if (!parentId) return true;
-                        return c.id !== parentId;
-                      })
-                      .map(c => (
-                        <option key={c.id} value={c.id}>{categoryPath(categories, c.id)}</option>
-                      ))
-                    }
-                  </select>
-                </div>
-                <button onClick={() => openNew(filterKind ?? 'expense', parentId ? categories.find(c => c.id === parentId) ?? null : null)} className="btn-secondary w-full text-sm">
-                  <Plus className="w-4 h-4" /> {parentId ? 'Nova subcategoria' : 'Nova categoria'}
-                </button>
-              </div>
+              <button onClick={() => openNew(filterKind ?? 'expense')} className="btn-secondary w-full text-sm">
+                <Plus className="w-4 h-4" /> Nova categoria
+              </button>
             )}
             {!selectMode && (
               <button onClick={() => openNew('expense')} className="btn-secondary w-full text-sm">
