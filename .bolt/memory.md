@@ -2,34 +2,28 @@
 
 ## Product intent & audience
 
-- Personal/couple finance management app (Portuguese, Brazilian audience).
-- Track credit cards, invoices, transactions/lançamentos, categories/subcategories, and couple expense settlements (acertos/reembolsos).
-- Supports splitting expenses between partners and tracking who paid and who owes whom.
+- Project imported from GitHub (`Rodolfinpass/Aplicativo`); intent not yet defined.
+- User communicates in Portuguese (Brazilian).
+- App type, pages, and user flows still unknown — user was asked to clarify.
 
 ## Brand personality & voice
 
-- UI text in Brazilian Portuguese.
-- Functional, clear, task-oriented language ("Minha despesa", "Despesa do casal", "Nova fatura", "Novo cartão").
+- Not yet established; awaiting product definition.
+- Assistant responses in Portuguese to match user language.
 
 ## Visual design & UX direction
 
-- Modal-driven workflows for creating cards, invoices, transactions, and subcategories inline.
-- Numeric inputs (1–31) for card closing/due dates with clamp logic `Math.min(31, Math.max(1, parseInt(...)))`.
-- Contextual inline creation: users can create cards, invoices, and subcategories without leaving the transaction modal.
-- Modal stays open on error; closes only on successful save.
-- Selectors for responsibility type and payer ("Quem pagou") with conditional value fields when both partners pay different amounts.
+- No design context inferred yet; project has no UI code.
 
 ## Decisions, constraints & rationale
 
-- Framework: Vite + React.
-- Backend has a DB constraint requiring closing/due dates between 1 and 31; value 99 was invalid and removed.
-- Invoices auto-fill dates based on the selected card's closing/due day.
-- Unequal split payments auto-generate settlement (acerto) records in the reimbursements area.
-- Build verification expected after changes.
+- Supabase selected/configured as backend (only existing config file present).
+- No application code has been generated yet; project is effectively a blank start.
+- User attempted to resume a prior session that doesn't exist in this environment.
 
 ## Open questions & assumptions
 
-- Specific backend/DB provider (e.g., Supabase) not yet confirmed.
-- No `.bolt/prompt` global instructions exist yet.
-- Auth model and user/partner identity management not detailed.
-- Currency formatting and locale specifics not yet specified.
+- What kind of app is this? (features, target users, pages)
+- What is the Supabase schema intended for?
+- Was prior work done in a different environment and needs to be recreated here?
+- Assumption: user may restore prior work via version history or restate requirements from scratch.
