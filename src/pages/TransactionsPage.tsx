@@ -512,7 +512,7 @@ export default function TransactionsPage() {
             <span className="text-neutral-400 text-sm">até</span>
             <input type="date" className="input py-2 text-sm w-auto" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
           </div>
-          <button className={`btn-ghost text-sm ${showFilters ? 'text-primary-700' : ''}`} onClick={() => setShowFilters(!showFilters)}>
+          <button className={`btn-ghost text-sm ${showFilters ? 'text-emerald-700' : ''}`} onClick={() => setShowFilters(!showFilters)}>
             <Filter className="w-4 h-4" /> Filtros
           </button>
           <div className="relative flex-1 min-w-[180px]">
@@ -551,7 +551,7 @@ export default function TransactionsPage() {
                 {accounts.map(a => <option key={a.id} value={a.id}>{accountDisplayLabel(a)}</option>)}
               </select>
             </div>
-            <button className="btn-ghost text-sm text-danger-500 self-end"
+            <button className="btn-ghost text-sm text-rose-500 self-end"
               onClick={() => { setFilterType(undefined); setFilterStatus(undefined); setFilterCategory(undefined); setFilterAccount(undefined); }}>
               Limpar
             </button>
@@ -753,7 +753,7 @@ export default function TransactionsPage() {
                             : 'Selecione'}
                         </span>
                         {categories.filter(c => formType === 'income' ? c.kind === 'income' : c.kind === 'expense').length === 0 && (
-                          <span className="text-xs text-warning-600">Adicionar</span>
+                          <span className="text-xs text-amber-600">Adicionar</span>
                         )}
                       </button>
                     </div>
@@ -770,7 +770,7 @@ export default function TransactionsPage() {
                             : 'Selecione'}
                         </span>
                         {paymentMethods.filter(pm => formType === 'income' ? pm.kind === 'income' : pm.kind === 'expense').length === 0 && (
-                          <span className="text-xs text-warning-600">Adicionar</span>
+                          <span className="text-xs text-amber-600">Adicionar</span>
                         )}
                       </button>
                     </div>
@@ -781,7 +781,7 @@ export default function TransactionsPage() {
                     <div className="flex items-center justify-between mb-1">
                       <label className="label mb-0">Estabelecimento</label>
                       <label className="flex items-center gap-1.5 cursor-pointer">
-                        <input type="checkbox" className="w-4 h-4 rounded border-neutral-300 text-primary-600"
+                        <input type="checkbox" className="w-4 h-4 rounded border-neutral-300 text-emerald-600"
                           checked={establishmentNotInformed}
                           onChange={(e) => {
                             setEstablishmentNotInformed(e.target.checked);
