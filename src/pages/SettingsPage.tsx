@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { UserPlus, Mail, X, Check, Clock, Trash2, Users, Bug, Copy, Trash, Download, Upload, FileSpreadsheet, LogOut, Crown } from 'lucide-react';
+import { UserPlus, Mail, X, Check, Clock, Trash2, Users, Bug, Copy, Trash, Download, Upload, FileSpreadsheet, LogOut, Crown, Eraser } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSpaces } from '@/hooks/useSpaces';
 import { supabase } from '@/lib/supabase';
@@ -167,6 +167,19 @@ export default function SettingsPage() {
     const { error } = await supabase.rpc('delete_shared_space', { p_space_id: activeSpace.id });
     if (error) {
       alert('Não foi possível excluir o espaço. Tente novamente.');
+      return;
+    }
+    await refresh();
+  }
+
+  async function handleClearSpaceData() {
+    if (!activeSpace) return;
+    const spaceName = activeSpace.name;
+    if (!confirm(`Apagar TODOS os dados do espaço "${spaceName}"? Lançamentos, cartões, contas, faturas, metas, orçamentos, categorias, formas de pagamento e acertos serão removidos permanentemente. O espaço e os membros são mantidos.`)) return;
+    if (!confirm('Esta ação não pode ser desfeita. Confirmar exclusão total dos dados?')) return;
+    const { error } = await supabase.rpc('clear_space_data', { p_space_id: activeSpace.id });
+    if (error) {
+      alert('Não foi possível limpar os dados do espaço. Tente novamente.');
       return;
     }
     await refresh();
@@ -403,6 +416,13 @@ export default function SettingsPage() {
             {/* Space actions */}
             {activeSpace && (
               <div className="border-t border-neutral-100 pt-4 flex flex-wrap gap-2">
+                <button
+                  onClick={handleClearSpaceData}
+                  className="btn-ghost text-sm text-danger-600 flex items-center gap-1.5"
+                  title="Apaga todos os dados do espaço, mantendo o espaço e os membros"
+                >
+                  <Eraser className="w-4 h-4" /> Limpar dados deste espaço
+                </button>
                 {isSharedSpace && !isSpaceOwner && (
                   <button onClick={handleLeaveSpace} className="btn-ghost text-sm text-danger-600 flex items-center gap-1.5">
                     <LogOut className="w-4 h-4" /> Sair deste espaço
